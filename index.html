@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente IA para Bancos de Imagens - Gemini AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Agente IA para Bancos de Imagens</h1>
+            <p>Analise suas imagens para verificar adequação para Adobe Stock, Vecteezy, Freepik e outros bancos comerciais</p>
+        </header>
+
+        <main>
+            <!-- Seção das API Keys -->
+            <section class="api-section">
+                <h3>🔑 Chaves da API Gemini</h3>
+                <p class="section-description">Agente IA especializado em análise para bancos comerciais. Insira até 5 chaves da API para distribuir as requisições e evitar limites de rate limiting</p>
+                
+                <div class="api-keys-container">
+                    <div class="api-key-group">
+                        <label for="apiKey1">Chave 1:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKey1" placeholder="Cole sua primeira chave da API Gemini aqui" class="api-key-input">
+                            <button type="button" class="toggle-visibility" data-target="apiKey1">👁️</button>
+                            <span class="api-key-status" id="status1"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="api-key-group">
+                        <label for="apiKey2">Chave 2:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKey2" placeholder="Cole sua segunda chave da API Gemini aqui (opcional)" class="api-key-input">
+                            <button type="button" class="toggle-visibility" data-target="apiKey2">👁️</button>
+                            <span class="api-key-status" id="status2"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="api-key-group">
+                        <label for="apiKey3">Chave 3:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKey3" placeholder="Cole sua terceira chave da API Gemini aqui (opcional)" class="api-key-input">
+                            <button type="button" class="toggle-visibility" data-target="apiKey3">👁️</button>
+                            <span class="api-key-status" id="status3"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="api-key-group">
+                        <label for="apiKey4">Chave 4:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKey4" placeholder="Cole sua quarta chave da API Gemini aqui (opcional)" class="api-key-input">
+                            <button type="button" class="toggle-visibility" data-target="apiKey4">👁️</button>
+                            <span class="api-key-status" id="status4"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="api-key-group">
+                        <label for="apiKey5">Chave 5:</label>
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKey5" placeholder="Cole sua quinta chave da API Gemini aqui (opcional)" class="api-key-input">
+                            <button type="button" class="toggle-visibility" data-target="apiKey5">👁️</button>
+                            <span class="api-key-status" id="status5"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-keys-info">
+                    <small>
+                        💡 <strong>Dica:</strong> Obtenha chaves gratuitas em 
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>. 
+                        Este agente analisa imagens para adequação em Adobe Stock, Vecteezy, Freepik e outros bancos comerciais.
+                        <br>🔒 <strong>As chaves são salvas automaticamente</strong> no seu navegador e carregadas quando você recarregar a página.
+                    </small>
+                    <div class="api-keys-summary">
+                        <span id="activeKeysCount">0</span> de 5 chaves ativas
+                        <button id="testAllKeysBtn" class="btn btn-outline" style="margin-left: 10px; font-size: 12px; padding: 6px 12px;">
+                            🧪 Testar
+                        </button>
+                        <button id="diagnoseApiBtn" class="btn btn-outline" style="margin-left: 5px; font-size: 12px; padding: 6px 12px;">
+                            🔍 Diagnóstico
+                        </button>
+                        <button id="clearApiKeysBtn" class="btn btn-outline" style="margin-left: 5px; font-size: 12px; padding: 6px 12px;">
+                            🗑️ Limpar Chaves
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Upload -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">📁</div>
+                        <h3>Arraste e solte suas imagens aqui</h3>
+                        <p>ou clique para selecionar arquivos</p>
+                        <p class="file-types">Formatos aceitos: JPG, PNG, WEBP (máximo 100 imagens)</p>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.webp" hidden>
+                </div>
+            </section>
+
+            <!-- Seção de Controles -->
+            <section class="controls-section">
+                <button id="analyzeBtn" class="btn btn-primary" disabled>
+                    🎨 Analisar para Bancos Comerciais
+                </button>
+                <button id="downloadCsvBtn" class="btn btn-secondary" disabled>
+                    📊 Gerar CSV
+                </button>
+                <button id="clearBtn" class="btn btn-outline">
+                    🗑️ Limpar Tudo
+                </button>
+            </section>
+
+            <!-- Barra de Progresso -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">Analisando imagens...</p>
+            </section>
+
+            <!-- Seção de Resultados -->
+            <section class="results-section" id="resultsSection">
+                <h3>Resultados da Análise</h3>
+                <div class="images-grid" id="imagesGrid"></div>
+            </section>
+
+            <!-- Seção de Mensagens -->
+            <section class="messages-section" id="messagesSection"></section>
+        </main>
+
+        <footer>
+            <p>🎨 Agente IA especializado em análise para bancos comerciais - Criado por Gennyson (JoviTools) ❤️ usando Google Gemini AI</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
